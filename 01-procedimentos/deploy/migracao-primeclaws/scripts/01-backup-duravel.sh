@@ -25,8 +25,8 @@ for d in .aws .cloudflare .ssh .claude .brevo .oci; do
 done
 [ -d ~/.config/opencode ] && rsync -a ~/.config/opencode/ "$OUT/creds/opencode/"
 
-echo "▸ ~/.local (uv/claude/opencode)..."
-[ -d ~/.local ] && rsync -a --exclude='share' ~/.local/ "$OUT/local/"
+echo "▸ ~/.local (uv/claude/opencode — bin+state; lib/share reinstaláveis)..."
+[ -d ~/.local ] && rsync -a --exclude='share' --exclude='lib' ~/.local/ "$OUT/local/"
 
 echo "▸ linkedin-callback + projetos-docs/repo..."
 [ -d ~/linkedin-callback ] && rsync -a ~/linkedin-callback/ "$OUT/linkedin-callback/"
