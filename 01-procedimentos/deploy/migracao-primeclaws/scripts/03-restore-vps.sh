@@ -8,9 +8,9 @@ export PATH="$HOME/.local/bin:$PATH"
 BACKUP=$(ls -t ~/migracao/backup-*.tar.gz 2>/dev/null | head -1 || true)
 [ -z "$BACKUP" ] && { echo "❌ Nenhum backup-*.tar.gz em ~/migracao/. Copie da EC2 primeiro."; exit 1; }
 echo "▶ Restaurando de: $BACKUP"
-tar -xzf "$BACKUP" -C ~/migracao/
-SRC=~/migracao/backup-*  # dir extraído (1º match)
-SRC=$(ls -dt ~/migracao/backup-*/ | head -1)
+SRC=~/migracao/restore
+rm -rf "$SRC" && mkdir -p "$SRC"
+tar -xzf "$BACKUP" -C "$SRC"
 
 # ── 1. Credenciais (permissões!) ───────────────────────────────────
 echo "▸ Credenciais..."
