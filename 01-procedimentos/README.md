@@ -10,7 +10,7 @@
 | **Conteúdo LinkedIn** | [procedimento.md](./conteudo-linkedin/procedimento.md) | 📝 Esqueleto (a refinar) |
 | **Rotinas** | [rotinas/](./rotinas/) — rotinas diárias, cadência de conteúdo, **inventário de crons** | 📝 Proposta |
 | **Gerência de projetos** | *(a criar)* — ADRs, decisions, status de projeto | ⏳ |
-| **Deploy** | *(a criar)* — GCP, Neon, Cloud Run | ⏳ |
+| **Deploy** | [ambientes-deploy.md](./deploy/ambientes-deploy.md) — mapa dos ambientes, processos, verificação e vícios medidos (GCP Cloud Run prod/staging, AWS blu-web + memory_api, brand-hub/brain-web, local) · [plano-versao-estavel.md](./deploy/plano-versao-estavel.md) · [prompt-execucao-nova-sessao.md](./deploy/prompt-execucao-nova-sessao.md) · [migracao-primeclaws/](./deploy/migracao-primeclaws/) | ✅ Vigente (baseline 28/08, 1º deploy de staging verde) |
 | **Memória e agentes** | *(a criar)* — Mnemosyne, skills, profiles | ⏳ |
 | **Operações** | *(a criar)* — crons, watchdog, manutenção | ⏳ |
 
