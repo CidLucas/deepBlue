@@ -45,6 +45,7 @@ Resumo comercial de cada cliente (propostas, apresentações, docs):
 | [mcp-brain](./02-projetos/mcp-brain/) | Produto B2B próprio | Descoberta |
 | [senac](./02-projetos/senac/) | SENAC | Pré-kickoff |
 | [cladtek](./02-projetos/cladtek/) | Cladtek | Pré-contrato |
+| [sales-coach-ai](./02-projetos/sales-coach-ai/) | Sales Coach AI — Cruzeiro do Sul | Pré-contrato (setup) |
 | [rastro](./02-projetos/rastro/) | Rastro | Pré-proposta |
 
 ## ⚙️ Stack da empresa
