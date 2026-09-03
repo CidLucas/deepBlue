@@ -23,6 +23,7 @@
 - Workshop de calibração: captura da base de conhecimento
 - Setup do ambiente de desenvolvimento
 - Setup Langfuse para prompts versionados
+- **Setup do MCP**: `pip install mcp[cli]`, criação do servidor FastMCP
 
 ### F1 — SalesCoachRegistry + Modo Assessment (D3–D8)
 

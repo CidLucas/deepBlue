@@ -29,7 +29,8 @@
 | 6 | **Prompts carregados da Langfuse** via `blu_prompt_management.build_prompt()` | ✅ Confirmada |
 | 7 | **Router** como intent classifier leve (LLM 1 chamada), não agente separado | ✅ Confirmada |
 | 8 | **blu_agno_runtime.factory.build_agent()** como base do Agent Factory | ✅ Confirmada |
-| 9 | Reuso do padrão `agente-bloquo` (VectorSearchTool, run_agent, structure) | ✅ Confirmada |
+| 9 | Tools expostas como **servidor FastMCP embutido** no mesmo processo (`app.mount()`) | ✅ Confirmada |
+| 10 | Agno Agent consome tools via `MCPTools(url="http://localhost:8000/mcp")` | ✅ Confirmada |
 
 **Documentos atualizados:**
 - PRD.md — reescrito com conceito de modos (v0.2)

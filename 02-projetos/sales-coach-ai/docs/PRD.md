@@ -30,6 +30,7 @@ vendas que opere 100% no WhatsApp — sem app novo no celular do vendedor.
 |--------|-----------|--------|
 | Framework de agentes | **Agno 2.6+** | `agno` (pip) |
 | Factory de agentes | **blu_agno_runtime.factory.build_agent()** | `~/monorepo/libs/blu_agno_runtime/` |
+| Servidor MCP interno | **FastMCP** (montado no mesmo FastAPI) | `pip install mcp[cli]` |
 | Prompts em runtime | **blu_prompt_management.build_prompt()** | `~/monorepo/libs/blu_prompt_management/` |
 | LLM routing | **blu_llm_service** | `~/monorepo/libs/blu_llm_service/` |
 | ASR (áudio) | **Groq Whisper** via `blu_llm_service.asr` | lib do monorepo |
@@ -85,6 +86,34 @@ define:
 
 O runtime monta o Agno Agent correto **a cada requisição** — stateless, sessão
 persistente no banco via `TenantPostgresDb`.
+
+### 4.1 MCP Server embutido
+
+Todas as ferramentas dos modos são expostas como **um servidor FastMCP montado
+no mesmo processo FastAPI** (`app.mount("/mcp", mcp.sse_app())`).
+
+O Agno Agent conecta-se a ele via `MCPTools(url="http://localhost:8000/mcp")` —
+mesmo processo, sem autenticação, sem latência de rede.
+
+```
+FastAPI (porta 8000)
+  ├── POST /webhook/twilio    ← REST (Twilio)
+  ├── GET /api/painel/*       ← REST (Frontend)
+  └── /mcp                    ← SSE (FastMCP)
+        ├── entrevista_tool() → assessment
+        ├── cenario_tool()    → roleplay
+        ├── transcrever_audio() → consultor
+        ├── vector_search()   → base semântica
+        └── ...
+
+Agno Agent → MCPTools(url="http://localhost:8000/mcp") → FastMCP
+                                                          ↓
+                                                    blu_llm_service
+                                                    blu_twilio_client
+                                                    blu_supabase_client
+```
+
+Dependência extra: `pip install mcp[cli]`.
 
 ---
 

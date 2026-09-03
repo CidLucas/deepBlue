@@ -1,9 +1,9 @@
 # 02 — Arquitetura — Sales Coach AI
 
-> **Versão:** 0.2 — 2026-09-03 (reescrita — unified 1-image architecture)
-> **Stack:** Agno 2.6+ · FastAPI · Supabase · Twilio · Groq Whisper · DeepSeek Flash · Claude
-> **Base:** `blu_agno_runtime` (factory) + `blu_prompt_management` (runtime prompts)
-> **Padrão:** 1 runtime → SalesCoachRegistry de modos (inspirado no AgentTypeRegistry do `blu_agent_framework`)
+> **Versão:** 0.3 — 2026-09-03 (MCP embutido — tools como servidor FastMCP no mesmo processo)
+> **Stack:** Agno 2.6+ · FastAPI · FastMCP · Supabase · Twilio · Groq Whisper · DeepSeek Flash · Claude
+> **Base:** `blu_agno_runtime` (factory) + `blu_prompt_management` (runtime prompts) + `FastMCP` (tools embutidas)
+> **Padrão:** 1 runtime com FastMCP montado no mesmo FastAPI → SalesCoachRegistry de modos
 
 ---
 
@@ -31,6 +31,7 @@ persiste no banco).
 | Factory de agentes | **blu_agno_runtime.factory.build_agent()** | `~/monorepo/libs/blu_agno_runtime/` |
 | Prompts em runtime | **blu_prompt_management.build_prompt()** | `~/monorepo/libs/blu_prompt_management/` |
 | Catálogo de modos | **SalesCoachRegistry** (inspirado no AgentTypeRegistry) | Criação nova no serviço |
+| **Servidor MCP interno** | **FastMCP** (montado no mesmo FastAPI) | `pip install mcp[cli]` |
 | LLM routing | **blu_llm_service** | `~/monorepo/libs/blu_llm_service/` |
 | ASR (áudio) | **Groq Whisper** via `blu_llm_service.asr` | lib do monorepo |
 | OCR (imagem) | **pytesseract** ou **docling** | pip |
@@ -150,77 +151,265 @@ prompt = await build_prompt(
 ## 4. Diagrama de Arquitetura
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                   1 Docker Image (Cloud Run)                     │
-│                                                                 │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │              Sales Coach API (FastAPI)                   │   │
-│  │                                                         │   │
-│  │  ┌─────────┐  ┌────────────────┐  ┌────────────────┐   │   │
-│  │  │ Twilio  │  │   blu_auth     │  │    Router      │   │   │
-│  │  │ Webhook │  │   (JWT)        │  │ (classificador)│   │   │
-│  │  └─────────┘  └────────────────┘  └───────┬────────┘   │   │
-│  │                                            │            │   │
-│  │  ┌─────────────────── SalesCoachRegistry ───────────┐   │   │
-│  │  │                                                  │   │   │
-│  │  │  assessment  → prompt + AssessmentTool + Flash   │   │   │
-│  │  │  roleplay    → prompt + RoleplayTool + Claude    │   │   │
-│  │  │  consultor   → prompt + ConsultorTool + Flash    │   │   │
-│  │  │  analytics   → prompt + AnalyticsTool + Flash    │   │   │
-│  │  │                                                  │   │   │
-│  │  └──────────────────────────────────────────────────┘   │   │
-│  │                                            │            │   │
-│  │  ┌────────────────────────────────────────┘            │   │
-│  │  │                                                     │   │
-│  │  ▼                                                     │   │
-│  │  ┌──────────────────────────────────────────────┐      │   │
-│  │  │        Agent Factory (Agno)                   │      │   │
-│  │  │  1. build_prompt(mode) → Langfuse ou builtin  │      │   │
-│  │  │  2. Resolve model tier                        │      │   │
-│  │  │  3. Injeta tools do modo                      │      │   │
-│  │  │  4. Cria Agno Agent                           │      │   │
-│  │  └──────────────────────────────────────────────┘      │   │
-│  │                         │                               │   │
-│  │                         ▼                               │   │
-│  │  ┌──────────────────────────────────────────────┐      │   │
-│  │  │         Tools / Skills por Modo               │      │   │
-│  │  │                                               │      │   │
-│  │  │  Assessment:                                   │      │   │
-│  │  │   ├─ entrevista_tool()  → conduz perguntas    │      │   │
-│  │  │   ├─ scoring_tool()     → avalia 3 eixos      │      │   │
-│  │  │   ├─ vector_search()    → consulta portfolio  │      │   │
-│  │  │   └─ relatorio_tool()  → gera PDF + link      │      │   │
-│  │  │                                               │      │   │
-│  │  │  Roleplay:                                     │      │   │
-│  │  │   ├─ cenario_tool()    → gera persona+obj     │      │   │
-│  │  │   ├─ simular_prospect()→ atua como cliente     │      │   │
-│  │  │   └─ feedback_tool()   → avalia técnica        │      │   │
-│  │  │                                               │      │   │
-│  │  │  Consultor:                                    │      │   │
-│  │  │   ├─ transcrever_audio()→ Groq Whisper         │      │   │
-│  │  │   ├─ extrair_texto()   → OCR (imagem)          │      │   │
-│  │  │   ├─ analisar_contexto()→ detecta objeção     │      │   │
-│  │  │   └─ sugerir()         → argumento+oferta      │      │   │
-│  │  │                                               │      │   │
-│  │  │  Analytics:                                    │      │   │
-│  │  │   ├─ agregar()         → SQL/pandas            │      │   │
-│  │  │   └─ gerar_insight()   → narrativa             │      │   │
-│  │  └──────────────────────────────────────────────┘      │   │
-│  └─────────────────────────────────────────────────────────┘   │
-│                                                                 │
-│  ┌─────────────────┐  ┌──────────────────┐  ┌────────────────┐ │
-│  │  Supabase       │  │  Langfuse        │  │  Twilio        │ │
-│  │  (auth+storage+ │  │  (prompts        │  │  WhatsApp      │ │
-│  │   pgvector)     │  │   versionados)   │  │  (canal)       │ │
-│  └─────────────────┘  └──────────────────┘  └────────────────┘ │
-│                                                                 │
-│                   1 Docker Image                                 │
-└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     1 Docker Image (Cloud Run)                          │
+│                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │              Sales Coach API (FastAPI — porta 8000)              │   │
+│  │                                                                  │   │
+│  │  ┌──────────┐  ┌───────────────┐  ┌────────────────────────┐   │   │
+│  │  │  Twilio  │  │   blu_auth    │  │      Router             │   │   │
+│  │  │  Webhook │  │   (JWT)       │  │  (classificador leve)   │   │   │
+│  │  └────┬─────┘  └───────────────┘  └───────────┬────────────┘   │   │
+│  │       │                                         │              │   │
+│  │       └─────────────┬───────────────────────────┘              │   │
+│  │                     ▼                                          │   │
+│  │       ┌─────────────────────────────────────┐                  │   │
+│  │       │       SalesCoachRegistry            │                  │   │
+│  │       │  assessment → prompt + Flash        │                  │   │
+│  │       │  roleplay   → prompt + Claude       │                  │   │
+│  │       │  consultor  → prompt + Flash        │                  │   │
+│  │       │  analytics  → prompt + Flash        │                  │   │
+│  │       └────────────────┬────────────────────┘                  │   │
+│  │                        ▼                                       │   │
+│  │       ┌─────────────────────────────────────┐                  │   │
+│  │       │   Agent Factory (Agno)              │                  │   │
+│  │       │  1. build_prompt(mode) → Langfuse   │                  │   │
+│  │       │  2. Resolve model tier              │                  │   │
+│  │       │  3. Cria Agno Agent                 │                  │   │
+│  │       │  4. Conecta MCPTools(url=localhost) │                  │   │
+│  │       └────────────────┬────────────────────┘                  │   │
+│  │                        │                                       │   │
+│  │                        ▼                                       │   │
+│  │       ┌─────────────────────────────────────┐                  │   │
+│  │       │  Agno Agent (recriado por request)  │                  │   │
+│  │       │  ┌───────────────────────────────┐  │                  │   │
+│  │       │  │   MCPTools(url="http://       │  │                  │   │
+│  │       │  │    localhost:8000/mcp")       │  │                  │   │
+│  │       │  └───────────┬───────────────────┘  │                  │   │
+│  │       └──────────────┼──────────────────────┘                  │   │
+│  └──────────────────────┼──────────────────────────────────────────┘   │
+│                         │                                              │
+│  ┌──────────────────────┼──────────────────────┐                       │
+│  │                      ▼                       │                       │
+│  │  FastMCP Server (montado em /mcp — mesmo     │                       │
+│  │  processo, mesmo FastAPI via app.mount())    │                       │
+│  │                                              │                       │
+│  │  Tools registradas com @mcp.tool():          │                       │
+│  │                                              │                       │
+│  │  Assessment:                                 │                       │
+│  │   ├─ entrevista_tool()   → pergunta adapta   │                       │
+│  │   ├─ scoring_tool()      → avalia 3 eixos    │                       │
+│  │   ├─ vector_search()     → consulta pgvector │                       │
+│  │   └─ relatorio_tool()   → gera link          │                       │
+│  │                                              │                       │
+│  │  Roleplay:                                   │                       │
+│  │   ├─ cenario_tool()      → persona+objeção   │                       │
+│  │   ├─ simular_prospect()  → atua como cliente  │                       │
+│  │   └─ feedback_tool()     → técnica+escuta+F  │                       │
+│  │                                              │                       │
+│  │  Consultor:                                  │                       │
+│  │   ├─ transcrever_audio() → Groq Whisper      │                       │
+│  │   ├─ extrair_texto()     → OCR               │                       │
+│  │   ├─ analisar_contexto() → detecta objeção   │                       │
+│  │   └─ sugerir()            → argumento+oferta │                       │
+│  │                                              │                       │
+│  │  Analytics:                                  │                       │
+│  │   ├─ agregar()            → SQL/pandas        │                       │
+│  │   └─ gerar_insight()      → narrativa         │                       │
+│  └──────────────────────────────────────────────┘                       │
+│                                                                         │
+│  ┌─────────────┐  ┌───────────────┐  ┌─────────────┐                   │
+│  │  Supabase   │  │  Langfuse     │  │  Twilio     │                   │
+│  │ (auth+      │  │ (prompts      │  │  WhatsApp   │                   │
+│  │  storage+   │  │  versionados) │  │  (canal)    │                   │
+│  │  pgvector)  │  └───────────────┘  └─────────────┘                   │
+│  └─────────────┘                                                       │
+│                                                                         │
+│        Todas as tools MCP chamam as libs do monorepo:                   │
+│        blu_llm_service · blu_twilio_client · blu_supabase_client        │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 5. SalesCoachRegistry — Catálogo de Modos
+## 5. MCP Server — Tools Embutidas
+
+Todas as ferramentas (tools) que os modos do Sales Coach usam são expostas como
+**um servidor MCP montado no mesmo processo FastAPI**.
+
+### 5.1 Como funciona
+
+```python
+from fastapi import FastAPI
+from mcp.server.fastmcp import FastMCP
+
+# FastAPI principal (REST: webhooks + painel)
+app = FastAPI(title="Sales Coach AI")
+
+# FastMCP server (tools dos agentes)
+mcp = FastMCP("sales-coach")
+
+# ── Tools de Assessment ─────────────────────────────────────
+@mcp.tool()
+async def entrevista_tool(
+    vendedor_id: str,
+    fase: str,
+    ultima_resposta: str | None = None,
+) -> str:
+    """Conducts the next assessment interview question for a salesperson.
+    Adapts based on previous answers and current evaluation phase."""
+    # usa a base semântica para gerar pergunta adaptativa
+    return await gerar_proxima_pergunta(vendedor_id, fase, ultima_resposta)
+
+@mcp.tool()
+async def scoring_tool(
+    vendedor_id: str,
+    respostas: list[dict],
+) -> dict:
+    """Scores a salesperson on 3 axes: knowledge (0-100), consultive (0-100),
+    prospect orientation (0-100). Returns weighted general score."""
+    return await calcular_score(respostas)
+
+@mcp.tool()
+async def relatorio_tool(
+    vendedor_id: str,
+    assessment_id: str,
+) -> str:
+    """Generates an individual assessment report and returns a WhatsApp link."""
+    return await gerar_relatorio(vendedor_id, assessment_id)
+
+# ── Tools de Roleplay ──────────────────────────────────────
+@mcp.tool()
+async def cenario_tool(
+    diagnostico: dict,
+    perfil_funil: dict,
+) -> dict:
+    """Generates a unique roleplay scenario: persona, context, and objection
+    based on the seller's diagnosis and funnel profile."""
+    # busca no mapa de objeções e perfis de prospect
+    return await gerar_cenario(diagnostico, perfil_funil)
+
+@mcp.tool()
+async def simular_prospect(
+    cenario_id: str,
+    mensagem_vendedor: str,
+) -> str:
+    """Acts as the simulated prospect, responding realistically with
+    resistance, doubts, and hesitations."""
+    return await responder_como_prospect(cenario_id, mensagem_vendedor)
+
+@mcp.tool()
+async def feedback_tool(
+    conversa_id: str,
+) -> dict:
+    """Evaluates roleplay performance on technique, listening, and closing.
+    Returns structured feedback with scores and improvement suggestions."""
+    return await avaliar_roleplay(conversa_id)
+
+# ── Tools de Consultor ─────────────────────────────────────
+@mcp.tool()
+async def transcrever_audio(audio_base64: str) -> str:
+    """Transcribes audio using Groq Whisper (ASR)."""
+    return await blu_llm_service.asr.transcribe_audio(audio_base64)
+
+@mcp.tool()
+async def extrair_texto(imagem_base64: str) -> str:
+    """Extracts text from an image via OCR."""
+    return await ocr_service.extrair(imagem_base64)
+
+@mcp.tool()
+async def analisar_contexto(
+    mensagem: str,
+    curso: str | None = None,
+) -> dict:
+    """Analyses the sales context: identifies the course, objection type,
+    and funnel stage from the seller's message."""
+    return await detectar_contexto(mensagem, curso)
+
+@mcp.tool()
+async def sugerir(
+    contexto: dict,
+) -> dict:
+    """Suggests a sales argument, counter-objection, and offer combination
+    based on the analysed context."""
+    return await gerar_sugestao(contexto)
+
+# ── Tools de Analytics ─────────────────────────────────────
+@mcp.tool()
+async def agregar(
+    periodo: str,
+    granularidade: str,
+) -> dict:
+    """Aggregates interaction metrics by seller, pole, unit, or course.
+    Period: 'daily' | 'weekly' | 'monthly'. Granularity: 'seller' | 'pole' |
+    'unit' | 'course'."""
+    return await agregar_metricas(periodo, granularidade)
+
+@mcp.tool()
+async def vector_search(consulta: str, colecao: str = "") -> str:
+    """Searches the Cruzeiro do Sul knowledge base semantically.
+    Returns relevant document excerpts with source references.
+    Colection filter: 'portfolio-academico', 'mapa-objecoes', etc."""
+    return await buscar_base_semantica(consulta, colecao)
+
+# ── Monta o MCP no FastAPI (1 imagem!) ─────────────────────
+app.mount("/mcp", mcp.sse_app())
+```
+
+### 5.2 Como o Agno consome as tools
+
+O Agno Agent se conecta ao servidor MCP **que está rodando no mesmo processo**:
+
+```python
+from agno.tools.mcp import MCPTools
+
+tools = [
+    MCPTools(url="http://localhost:8000/mcp"),  # MCP embutido
+]
+agent = Agent(
+    model=model,
+    tools=tools,
+    # ...
+)
+```
+
+### 5.3 Vantagens do padrão MCP embutido
+
+| Dimensão | Sem MCP (tools soltas) | Com MCP (FastMCP embutido) |
+|----------|----------------------|---------------------------|
+| Schema das tools | Manual (docstring solta) | **Automático** (tipos Python → JSON schema) |
+| Descoberta de tools | O Agno só sabe as que recebeu | **MCP lista todas automaticamente** |
+| Separação REST vs tools | Tudo junto no Agno Agent | **REST no FastAPI, tools no FastMCP** |
+| Versionamento de tools | Deploy do código | **Tools são endpoints — versão implícita** |
+| Reuso externo | Só o Agno usa | **Qualquer cliente MCP pode chamar** (futuro: Claude Desktop, Copilot) |
+| Complexidade | 0 servidores extras | **0 servidores extras** (mesmo processo) |
+| Conexão | N/A | `localhost:8000/mcp` — sem auth, sem latência de rede |
+
+### 5.4 Diferença do padrão `blu_agno_runtime.mcp.connection`
+
+A lib `blu_agno_runtime/mcp/connection.py` abre conexão MCP com um servidor
+**externo** (passa URL + token). No Sales Coach, o servidor MCP é interno:
+
+```
+blu_agno_runtime → MCPTools(url="https://mcp.externo.com")  ← servidor remoto
+Sales Coach      → MCPTools(url="http://localhost:8000/mcp") ← mesmo processo
+
+Sem token exchange, sem latência de rede, sem falha de DNS.
+```
+
+### 5.5 Dependência extra
+
+```bash
+pip install mcp[cli]
+# juntamente com as dependências existentes:
+# agno, blu-agno-runtime, blu-llm-service, blu-twilio-client, ...
+```
+
+---
+
+## 6. SalesCoachRegistry — Catálogo de Modos
 
 ```python
 SALES_COACH_MODES: dict[str, SalesCoachMode] = {
@@ -263,7 +452,7 @@ SALES_COACH_MODES: dict[str, SalesCoachMode] = {
 }
 ```
 
-## 6. Agent Factory (core do sistema)
+## 7. Agent Factory (core do sistema)
 
 ```python
 async def build_sales_coach_agent(
@@ -311,7 +500,7 @@ O `build_agent()` do `blu_agno_runtime` cuida de:
 - Envolver tools com auditoria
 - Preparar o Agent para `arun()`
 
-## 7. Router (Intent Classifier)
+## 8. Router (Intent Classifier)
 
 O router é a primeira parada de toda mensagem. Ele:
 
@@ -329,9 +518,9 @@ O router é a primeira parada de toda mensagem. Ele:
 O router é implementado como um prompt leve (1-2 chamadas) que retorna um JSON
 com o modo detectado. Não precisa de LangGraph — é uma `build_prompt()` + parse.
 
-## 8. Base de Dados Semântica
+## 9. Base de Dados Semântica
 
-### 8.1 Pipeline de ingestão (inspirada no `agente-bloquo`)
+### 9.1 Pipeline de ingestão (inspirada no `agente-bloquo`)
 
 ```
 1. Receber arquivos da Cruzeiro (PDF, DOCX, MD, links)
@@ -344,7 +533,7 @@ com o modo detectado. Não precisa de LangGraph — é uma `build_prompt()` + pa
 Diferente do agente-bloquo (que usa OCI Vector Store), usamos **Supabase
 pgvector** — mesma stack do restante da Deep Blue.
 
-### 8.2 Reuso do VectorSearchTool
+### 9.2 Reuso do VectorSearchTool
 
 O `VectorSearchTool` do agente-bloquo (`src/agent.py`, ~50 linhas) é
 reaproveitável integralmente — só trocar a chamada:
@@ -357,7 +546,7 @@ client.vector_stores.search(vector_store_id=OCI_VECTOR_STORE_ID, query=...)
 supabase.rpc("search_knowledge", {"query_embedding": embed(query), "match_count": 5})
 ```
 
-### 8.3 Coleções
+### 9.3 Coleções
 
 | Coleção | Prioridade | Tamanho estimado | Usada por |
 |---------|-----------|-----------------|-----------|
@@ -367,9 +556,9 @@ supabase.rpc("search_knowledge", {"query_embedding": embed(query), "match_count"
 | `roteiros-vendas` | P1 | ~20 chunks | assessment, roleplay |
 | `perfis-prospect` | P1 | ~10 chunks | roleplay |
 
-## 9. Sessão e Estado
+## 10. Sessão e Estado
 
-### 9.1 Schema da sessão
+### 10.1 Schema da sessão
 
 ```sql
 create table sessoes (
@@ -385,13 +574,13 @@ create table sessoes (
 create index idx_sessoes_vendedor on sessoes(vendedor_id);
 ```
 
-### 9.2 Persistência do Agno
+### 10.2 Persistência do Agno
 
 Usamos `TenantPostgresDb` do `blu_agno_runtime.storage` — o Agno persiste o
 histórico multi-turno automaticamente. Cada modo tem seu próprio `session_id`,
 mas compartilham o mesmo `vendedor_id` como tenant.
 
-## 10. Fluxo de Mensagens (WhatsApp) — Detalhado
+## 11. Fluxo de Mensagens (WhatsApp) — Detalhado
 
 ```
 1. Vendedor envia mensagem pelo WhatsApp
@@ -415,7 +604,7 @@ mas compartilham o mesmo `vendedor_id` como tenant.
    → Resposta → Twilio
 ```
 
-## 11. Painel da Liderança
+## 12. Painel da Liderança
 
 Mesmo desenho anterior, pois independe da arquitetura de agentes:
 
@@ -434,7 +623,7 @@ Mesmo desenho anterior, pois independe da arquitetura de agentes:
 | Por unidade | Média da unidade, comparativo | Coordenador |
 | Por curso | Dificuldade de venda por curso, objeções comuns | Gerência |
 
-## 12. Reuso do agente-bloquo — Mapa Atualizado
+## 13. Reuso do agente-bloquo — Mapa Atualizado
 
 | Componente | Uso no Sales Coach | Adaptação |
 |-----------|-------------------|-----------|
@@ -450,7 +639,7 @@ Mesmo desenho anterior, pois independe da arquitetura de agentes:
 | `main.py` — FastAPI + CORS | Sim — manter | Copiar |
 | `models/oci_grok.py` — Custom Agno model | Não (não usamos OCI) | Usar `blu_llm_service` direto |
 
-## 13. Segurança
+## 14. Segurança
 
 - **Autenticação:** JWT via `blu_auth` — vendedores identificados pelo número
   WhatsApp + token de sessão
