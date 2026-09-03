@@ -22,24 +22,30 @@
 - Kickoff com Cruzeiro do Sul
 - Workshop de calibração: captura da base de conhecimento
 - Setup do ambiente de desenvolvimento
+- Setup Langfuse para prompts versionados
 
-### F1 — Assessment Engine (D3–D8)
+### F1 — SalesCoachRegistry + Modo Assessment (D3–D8)
 
-- Scaffold do serviço FastAPI + Agno
-- Integração Twilio WhatsApp + webhook
+- Scaffold do serviço FastAPI + Agno (1 imagem)
+- **SalesCoachRegistry**: estrutura de modos + Agent Factory
+- Integração Twilio WhatsApp + webhook + Router
+- **blu_prompt_management**: carga de prompts da Langfuse em runtime
 - Base vetorial: pipeline de ingestão (Supabase pgvector)
-- Agent Assessment: entrevista conversacional + scoring
-- Relatório individual + envio via WhatsApp
+- **Modo Assessment**: entrevista conversacional + scoring + relatório via WhatsApp
+- Setup dos prompts "sales-coach/router" e "sales-coach/assessment" na Langfuse
 
-### F2 — Roleplay + Consultor (D9–D15)
+### F2 — Modos Roleplay + Consultor (D9–D15)
 
-- Agent Roleplay: geração de cenário + simulação + feedback
-- Agent Consultor: ASR (Groq Whisper) + OCR + sugestão em tempo real
+- **Modo Roleplay**: geração de cenário + simulação + feedback
+- **Modo Consultor**: ASR (Groq Whisper) + OCR + sugestão em tempo real
+- Router inteligente: classificação de intenção entre modos
 - Sessão persistente (TenantPostgresDb)
+- Setup dos prompts "sales-coach/roleplay" e "sales-coach/consultor" na Langfuse
 
-### F3 — Analytics + Painel (D16–D22)
+### F3 — Modo Analytics + Painel (D16–D22)
 
-- Agent Analytics: pipeline de agregação (cron diário)
+- **Modo Analytics**: pipeline de agregação (cron diário)
+- Setup do prompt "sales-coach/analytics" na Langfuse
 - Painel da liderança: API + frontend React
 - Autenticação (blu_auth)
 

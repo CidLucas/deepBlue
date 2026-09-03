@@ -4,6 +4,47 @@
 
 ---
 
+## 2026-09-03 — Sessão 2: Definição de arquitetura unificada (Lucas + Hermes PM)
+
+**Participantes:** Lucas Cid, Hermes PM
+
+**Resumo:**
+- Discutida a arquitetura ideal: ao invés de 4 agentes separados + orchestrator,
+  decidimos por **1 runtime com N modos carregados em runtime**
+- Inspirado no `AgentTypeRegistry` do `blu_agent_framework` — um catálogo de
+  modos (assessment, roleplay, consultor, analytics) que define prompt_name,
+  skill_tools, model_tier e max_turns para cada modo
+- **Prompts carregados da Langfuse** em runtime via `blu_prompt_management.build_prompt()`
+  — sem prompts hardcoded, ajustáveis sem deploy
+- O runtime é 1 única imagem Docker (FastAPI + Agno), recriando o Agent por request
+  com sessão persistente no `TenantPostgresDb`
+- Inspecionado `blu_agent_framework.registry` (AgentTypeRegistry, ~12 agent types)
+  e `blu_prompt_management` (Langfuse-first, builtin fallback) — ambos maduros
+- Router leve baseado em LLM (1 chamada) para classificar intenção e selecionar modo
+
+**Decisões:**
+| # | Decisão | Status |
+|---|---------|--------|
+| 5 | **Arquitetura: 1 Docker image + SalesCoachRegistry** (não 4 agentes separados) | ✅ Confirmada |
+| 6 | **Prompts carregados da Langfuse** via `blu_prompt_management.build_prompt()` | ✅ Confirmada |
+| 7 | **Router** como intent classifier leve (LLM 1 chamada), não agente separado | ✅ Confirmada |
+| 8 | **blu_agno_runtime.factory.build_agent()** como base do Agent Factory | ✅ Confirmada |
+| 9 | Reuso do padrão `agente-bloquo` (VectorSearchTool, run_agent, structure) | ✅ Confirmada |
+
+**Documentos atualizados:**
+- PRD.md — reescrito com conceito de modos (v0.2)
+- 02-arquitetura.md — reescrita com diagrama, SalesCoachRegistry, pipeline de prompts (v0.2)
+- ROADMAP.md — fases renomeadas para refletir modos + setup Langfuse
+- STATUS.md — stack atualizada para 🟢
+
+**Próximos passos:**
+- [ ] Validar PRD v0.2 + arquitetura v0.2
+- [ ] Definir repo de código (monorepo vs separado)
+- [ ] Data do pré-kickoff interno com TEMPLO
+- [ ] Design system: Blu DS vs brandbook TEMPLO
+
+---
+
 ## 2026-09-03 — Bootstrap + definição de stack (Lucas + Hermes PM)
 
 **Participantes:** Lucas Cid, Hermes PM

@@ -18,7 +18,7 @@
 |------|--------|
 | Escopo técnico validado | 🟢 sim (REV. 04 da proposta) |
 | Documentação de projeto | 🟡 00-escopo criado, expandindo |
-| Stack técnica definida | 🟡 parcial — libs do monorepo mapeadas |
+| Stack técnica definida | 🟢 **1 imagem + registry (Agno, Langfuse prompts, 4 modos)** |
 | Repositório de código | 🔴 não criado |
 | Base de conhecimento da Cruzeiro | 🔴 não recebida |
 | Workshop de kickoff agendado | 🔴 a definir com TEMPLO |
