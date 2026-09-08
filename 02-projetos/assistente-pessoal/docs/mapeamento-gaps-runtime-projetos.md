@@ -118,7 +118,15 @@ exatamente o desenho previsto para o Sales Coach.
 
 ## 5. Issues abertas a partir deste mapeamento
 
-<!-- preenchido após abertura das issues no monorepo -->
+| Issue | Título | Projeto | Tipo |
+|---|---|---|---|
+| [#759](https://github.com/CidLucas/monorepo/issues/759) | sales-coach: tools de domínio dos 4 modos | Sales Coach | enhancement |
+| [#760](https://github.com/CidLucas/monorepo/issues/760) | sales-coach: fluxo relatório → link → WhatsApp e router de intenção | Sales Coach | enhancement |
+| [#761](https://github.com/CidLucas/monorepo/issues/761) | blu_parsers: leitura de CAD (SolidWorks/PDL) | Cladtek | enhancement |
+| [#762](https://github.com/CidLucas/monorepo/issues/762) | blu_agno_runtime: unificar document_parse com blu_parsers | Runtime | tech-debt |
+| [#763](https://github.com/CidLucas/monorepo/issues/763) | sales-coach-web: painel da liderança | Sales Coach | enhancement |
+| [#764](https://github.com/CidLucas/monorepo/issues/764) | senac: fluxo de geração de relatório pedagógico editável | SENAC | enhancement |
+| [#765](https://github.com/CidLucas/monorepo/issues/765) | cladtek-web: sandbox de validação humana + dashboard | Cladtek | enhancement |
 
 ---
 
