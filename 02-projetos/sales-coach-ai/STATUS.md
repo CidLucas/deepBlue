@@ -1,16 +1,16 @@
 # Status — Sales Coach AI (Cruzeiro do Sul)
 
-> **Última atualização:** 2026-09-03
+> **Última atualização:** 2026-09-08
 > **Contrato:** TEMPLO × Cruzeiro do Sul, 12 meses, R$ 40.200,00 (12x R$ 3.350,00)
 > **Lucas (Deep Blue):** executor técnico
 > **TEMPLO:** GP + AI Officer + infra + custos IA
-> **⏳ ATIVAÇÃO PENDENTE:** contrato assinado, aguardando repasse da 1ª parcela do cliente
+> **✅ PROJETO ATIVO (decisão do dono, 08/09/2026).** Rodando sobre o **blu_agno_runtime** do monorepo — o Sales Coach é o **cliente que deu origem** ao padrão AgentRegistry + MCP embutido (#752-755).
 
 ---
 
 ## 🩺 Saúde geral
 
-🟢 **Setup** — escopo definido, documentação em criação, aguardando validação.
+🟢 **Setup** — escopo definido (REV. 04), documentação completa (PRD, arquitetura v0.3, roadmap), aguardando ativação/infra TEMPLO.
 
 ## 📊 Resumo executivo
 
@@ -58,4 +58,5 @@
 
 | Data | Atualização |
 |------|-------------|
+| 2026-09-08 | **Projeto ATIVO** (decisão dono). Identificado como cliente original do padrão AgentRegistry do runtime. |
 | 2026-09-03 | Bootstrap do projeto — escopo recebido, libs mapeadas, docs iniciados |
