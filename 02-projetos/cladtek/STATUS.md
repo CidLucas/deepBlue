@@ -1,26 +1,26 @@
 # Status — Cladtek
 
-> Última atualização: 2026-07-29
+> Última atualização: 2026-09-08
 > **Contrato:** Templo × Cladtek, 24 semanas, R$ 61.300 (3 parcelas)
 > **Lucas:** responsável técnico
 > **Templo:** GP + AI Officer + infra
 
-> ⏳ **ATIVAÇÃO PENDENTE:** Contrato com Cladtek em negociação jurídica. Expectativa de assinatura: **15-30 dias**. Só inicia após assinatura do cliente final.
+> ✅ **PROJETO ATIVO (decisão do dono, 08/09/2026).** Rodando sobre o **blu_agno_runtime** do monorepo (mesma base dos projetos SENAC e Cruzeiro do Sul).
 
 ## 🩺 Saúde geral
 
-🟡 **Pré-contrato** — escopo contratual definido (Templo formalizou), aguardando assinatura do cliente final para ativar.
+🟢 **Ativo** — escopo contratual definido. Em preparação técnica sobre o runtime compartilhado.
 
 ## 📊 Resumo executivo
 
 | Item | Status |
 |---|---|
-| **Contrato Templo × Cladtek** | 🟡 em discussão jurídica (15-30 dias) |
+| **Contrato Templo × Cladtek** | 🟢 ativo |
 | **Contrato Lucas × Templo** | 🟢 escopo formalizado (29/07) |
-| **Data de kickoff (D+0)** | 🔴 depende de assinatura Cladtek |
+| **Data de kickoff (D+0)** | 🟡 a definir |
 | **PRD v0.1** | 🟢 criado ([docs/PRD.md](./docs/PRD.md)) |
 | **ROADMAP v0.1 (Gantt)** | 🟢 criado ([docs/ROADMAP.md](./docs/ROADMAP.md)) |
-| **Stack escolhida** | 🟢 Agno confirmado (29/07); LLM e resto em avaliação |
+| **Stack escolhida** | 🟢 blu_agno_runtime (Agno) — compartilhado |
 | **Repo de código** | 🟢 bootstrap criado ([CidLucas/cladtek](https://github.com/CidLucas/cladtek)) |
 
 ## 🎯 Escopo do contrato

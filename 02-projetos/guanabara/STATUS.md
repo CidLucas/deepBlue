@@ -1,30 +1,27 @@
 # STATUS — Guanabara
 
-> **Atualizado:** 2026-07-29
+> **Atualizado:** 2026-09-08
 
-## 🟡 Status geral: Proposta em preparação
+## 🔴 Status geral: PROJETO ARQUIVADO
 
-Escopo v0.4 validado. Apresentação ao cliente prevista para **final desta semana**.
+Decisão do dono (08/09/2026): **"Guanabara a gente também não vai fazer, pode fechar ele."**
 
-## ✅ Feito
+## 📌 Estado no fechamento
 
+- Escopo v0.4 validado (10 seções, 15 entregáveis) — nunca apresentado ao cliente
 - Proposta visual (landing page HTML) — `CidLucas/proposta-guanabara`
-- Documento de escopo v0.4: 10 seções, 15 entregáveis com critérios de validação
 - Estrutura de pagamento: 5 parcelas (20% kickoff + entregas + 10% sustentação)
 - Stack definida: DeepSeek + Groq + FastAPI + PostgreSQL
+- Contrato: **nunca assinado**
 
-## 🔜 Próximas ações
+## 🗄️ O que fica arquivado
 
-| # | Ação | Responsável | Prazo |
-|---|---|---|---|
-| 1 | Apresentar proposta ao Guanabara (Fábio) | Lucas | Final desta semana |
-| 2 | Se aprovado: assinar contrato + agendar kickoff | Lucas | — |
-| 3 | Criar repo de código do projeto | Hermes | Pós-contrato |
+- `docs/` — escopo v0.4 e materiais da proposta
+- Proposta visual em `CidLucas/proposta-guanabara`
 
-## ⚠️ Perguntas em aberto
+## 📅 Histórico de atualizações
 
-Nenhuma. Documento de escopo validado e pronto para apresentação.
-
-## 🚫 Blockers
-
-Nenhum.
+| Data | Atualização |
+|---|---|
+| 2026-09-08 | **Projeto fechado** — decisão do dono |
+| 2026-07-29 | Escopo v0.4 validado, proposta pronta para apresentação |

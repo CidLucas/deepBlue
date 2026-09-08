@@ -1,15 +1,15 @@
 # Status — SENAC
 
-> Última atualização: 2026-07-29
+> Última atualização: 2026-09-08
 > **Contrato:** Templo × SENAC, 24 semanas, R$ 18.200 (pagamento final)
 > **Lucas:** responsável técnico
 > **Templo:** GP + AI Officer + infra
 
-> ⏳ **ATIVAÇÃO IMINENTE:** Contrato com SENAC em discussão jurídica. Expectativa de assinatura: **próxima semana**. Projeto pode começar em breve.
+> ✅ **PROJETO ATIVO (decisão do dono, 08/09/2026).** Rodando sobre o **blu_agno_runtime** do monorepo (mesma base dos projetos Cladtek e Cruzeiro do Sul).
 
 ## 🩺 Saúde geral
 
-🟢 **Pré-kickoff** — contrato SENAC assinado (29/07). Aguardando Templo agendar alinhamento para definir D+0.
+🟢 **Ativo** — contrato assinado (29/07). Em preparação técnica sobre o runtime compartilhado.
 
 ## 📊 Resumo executivo
 
@@ -20,7 +20,7 @@
 | **Data de kickoff (D+0)** | 🟡 a agendar — D+1 da conversa de alinhamento |
 | **PRD v0.1** | 🟢 criado ([docs/PRD.md](./docs/PRD.md)) |
 | **ROADMAP v0.1 (24 sem + Gantt)** | 🟢 criado ([docs/ROADMAP.md](./docs/ROADMAP.md)) |
-| **Stack escolhida** | 🟢 Agno confirmado; LLM em avaliação |
+| **Stack escolhida** | 🟢 blu_agno_runtime (Agno) — compartilhado |
 | **Acesso ao SAVE** | 🔴 não |
 | **Repo de código** | 🟢 bootstrap criado ([CidLucas/senac](https://github.com/CidLucas/senac)) |
 
