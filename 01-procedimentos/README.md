@@ -10,7 +10,7 @@
 | **Conteúdo LinkedIn** | [procedimento.md](./conteudo-linkedin/procedimento.md) | 📝 Esqueleto (a refinar) |
 | **Rotinas** | [rotinas/](./rotinas/) — rotinas diárias, cadência de conteúdo, **inventário de crons** | 📝 Proposta |
 | **Gerência de projetos** | *(a criar)* — ADRs, decisions, status de projeto | ⏳ |
-| **Deploy** | [ambientes-deploy.md](./deploy/ambientes-deploy.md) — princípio, acordos de desenvolvimento, mapa dos ambientes (VPS única: produção + staging), isolamento de dados, verificação e vícios medidos · [plano-versao-estavel.md](./deploy/plano-versao-estavel.md) · [prompt-execucao-nova-sessao.md](./deploy/prompt-execucao-nova-sessao.md) · [migracao-primeclaws/](./deploy/migracao-primeclaws/) | ✅ Vigente (reescrito 24/09 — mundo VPS) |
+| **Deploy** | [ambientes-deploy.md](./deploy/ambientes-deploy.md) — princípio, acordos de desenvolvimento, mapa dos ambientes (VPS única: produção + staging), isolamento de dados, verificação e vícios medidos · [**status-pipeline-deploy.md**](./deploy/status-pipeline-deploy.md) — estado das frentes, bloqueios e decisões · [migracao-primeclaws/](./deploy/migracao-primeclaws/) · [plano-versao-estavel.md](./deploy/plano-versao-estavel.md) ⚠️ era GCP/Cloud Run · [prompt-execucao-nova-sessao.md](./deploy/prompt-execucao-nova-sessao.md) ⚠️ era GCP/Cloud Run | ✅ Vigente (ambientes-deploy reescrito 24/09 — mundo VPS) |
 | **Memória e agentes** | *(a criar)* — Mnemosyne, skills, profiles | ⏳ |
 | **Operações** | *(a criar)* — crons, watchdog, manutenção | ⏳ |
 
