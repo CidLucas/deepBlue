@@ -33,7 +33,8 @@ feature/xxx ──PR──▶ develop ──deploy staging──▶ stack -stg �
 2. **O ramo determina o destino, e o código impõe isso.** Não é acordo verbal:
    o script de deploy recusa destino incompatível com o ramo. Se a regra só
    vive na cabeça de quem roda, ela não existe — foi assim que produção passou
-   a rodar um commit da `develop` sem ninguém decidir (#1024).
+   a rodar um commit da `develop` sem ninguém decidir (#1024). **Implementado
+   no PR #1030** (`gate de ramo`, §8).
 
 ## 2. Acordos de desenvolvimento
 
@@ -130,9 +131,12 @@ O `scripts/ci/deploy-local.sh` faz o ciclo inteiro:
 1. Pré-requisitos locais (docker, sops, age, `SOPS_AGE_KEY_FILE`, ssh para a VPS)
 2. **Árvore git limpa** — aborta se houver modificação não commitada
 3. Tag = `git rev-parse --short HEAD`
-4. Veredito do CI para esse sha — **hoje vácuo** (§3.1): ele consulta
-   `gh run list --commit <sha>`, encontra 0 runs e segue. `FORCE=1` seria o
-   escape, e não faz diferença enquanto o CI estiver desligado.
+4. **Gate de ramo** (#1026) e **gate de qualidade** (#1027) — ambos no PR #1030.
+   *Antes:* este passo lia o veredito do CI, que **não existe** (§3.1) —
+   consultava `gh run list --commit <sha>`, encontrava 0 runs e seguia.
+   *Agora:* exige o ramo `main`, em dia com `origin/main` (ou, com `TAG=<sha>`,
+   que o commit seja ancestral de `origin/main`), e roda `make ci`. `FORCE=1`
+   pula só o gate de qualidade.
 5. Decifra o master SOPS e renderiza os `infra/vps/*.env`, com validação
 6. Para cada serviço com `env_file`: `docker build --platform linux/amd64` →
    `docker save | ssh vps docker load`
@@ -276,9 +280,9 @@ quando todas fecharem.
 | Não existe stack de staging: o compose não tem `profile:` nem serviço `-stg`, e o `deploy.sh` aceita `staging` sem que nada mude | #1025 |
 | `deploy-local.sh` não tem parâmetro `ENV`; a linha 163 tem `./deploy.sh prod` hardcoded | #1025 |
 | `compose_vps.py` lê `ambientes.producao` e ignora `ambientes.staging` — o campo existe no manifesto e não tem consumidor | #1025 |
-| `deploy-local.sh` não checa o ramo — usa `git rev-parse --short HEAD` de qualquer árvore (foi assim que produção recebeu um commit da `develop`) | #1026 (decisão de processo: #1024) |
+| `deploy-local.sh` não checa o ramo — usa `git rev-parse --short HEAD` de qualquer árvore (foi assim que produção recebeu um commit da `develop`) | #1026 → **PR #1030** |
 | `docker.yml` (gate de build) roda só em PR para `main` — `develop` não passa por ele. Latente enquanto o CI estiver desligado; ativo no dia em que religar | #1027 |
-| O gate de veredito do CI no `deploy-local.sh` é **vácuo** (§3.1): o CI está desligado, então ele sempre lê "nenhum run" e segue | #1027 |
+| O gate de veredito do CI no `deploy-local.sh` é **vácuo** (§3.1): o CI está desligado, então ele sempre lê "nenhum run" e segue | #1027 → **PR #1030** |
 | **Nada protege a `main`**: CI desligado, sem proteção de ramo (limitação do plano), sem gate de merge | #1027 |
 | Workflows que descrevem um mundo que não existe: `cd.yml` (Cloud Run), `formly-web-cd`, `memory-cd`, `backup`, `healthcheck`, `e2e-prod` | #1028 |
 | O banco de auth do `brain_web` vive em `/data/auth.db` sem volume — é destruído a cada deploy (§9.15) | #1029 |
