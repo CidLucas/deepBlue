@@ -1,22 +1,8 @@
-# Referências — Acervo de Design
+# 06-referencias
 
-**Finalidade:** coleção curada do que usar de inspiração ao criar qualquer
-artefato da Deep Blue (telas, decks, posts, propostas). Quando o Lucas diz
-"me inspira nisso" ou "usa o material do opendesign", o acervo é a fonte.
+Material de consulta. (Antes `03-referencias` + absorbe design y catálogo IA.)
 
-## Estrutura
-
-```
-referencias/
-├── design-systems/   ← sistemas e templates reais para estudar/adaptar
-└── marcas/           ← marcas de referência citadas pelo Lucas
-```
-
-## Regras
-
-1. Referência entra com **nome + origem (URL) + o que extrair** — nunca link
-   solto.
-2. Adaptar é ok; copiar identidade não. Toda adaptação passa pela Voz e pela
-   identidade Deep Blue.
-3. O que o Lucas aprovar vira token no design system correspondente (monorepo
-   `design/design-systems/`).
+## Contenido
+- `design-systems/` · `marcas/` · `pesquisa/`
+- `design/` (de `02-projetos/design`)
+- `catalogo-modelos-ia/` (de `02-projetos/catalogo-modelos-ia`)
