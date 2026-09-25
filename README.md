@@ -14,7 +14,7 @@ automações e produtos de IA para PMEs e clientes corporativos.
 
 | Pasta | Conteúdo |
 |---|---|
-| [00-empresa/](./00-empresa/) | Contexto da empresa: visão, stack, clientes, posicionamento |
+| [00-empresa/](./00-empresa/) | visão + [atas/](./00-empresa/atas/) · [analises/](./00-empresa/analises/) · [societario/](./00-empresa/societario/) · [financeiro/](./00-empresa/financeiro/) |
 | [01-procedimentos/](./01-procedimentos/) | **★ Padrões operacionais por área** + [ritmo-operativo/](./01-procedimentos/ritmo-operativo/) (briefing, fechamento, recap, retro) |
 | [02-projetos/](./02-projetos/) | Um diretorio por **projeto vigente** (inclui contexto do cliente, propuesta, reuniones dentro do projeto) |
 | [03-negocio/](./03-negocio/) | **Cuestiones de negocio**: marketing, producto, herramientas, pipeline |
@@ -31,13 +31,23 @@ O **cliente vive dentro do projeto** (não tem pasta própria): contexto, propos
 contrato e reuniões ficam em `02-projetos/<projeto>/cliente/`. Cliente sem projeto
 não é relevante — a negociação gera um projeto na hora.
 
+## 📄 Documentos comuns & convenções
+
+- **Tudo vive no repositório** (sem Drive). Git é a fonte e o histórico.
+- **Convenção de nomes:** arquivo datado `AAAA-MM-DD-tipo-descricao.ext`; documento vivo sem data (`editoria.md`, `plano-comercial.md`); versão antiga → `historico/` (nunca se apaga). Detalhe em [WAY_OF_WORKING.md](./01-procedimentos/way-of-working/WAY_OF_WORKING.md).
+- **Cliente** vive dentro do projeto (`cliente/`). Decisões/dívidas → issues no GitHub.
+- Atas de sessão longa → `00-empresa/atas/` · análises → `00-empresa/analises/`.
+
 ## 🧭 Procedimentos (como fazemos)
 
 - [**Produção de código**](./01-procedimentos/producao-de-codigo/) — pipeline de issues → specs → agentes → verificação → PR
 - [**Conteúdo LinkedIn**](./01-procedimentos/conteudo-linkedin/) — fluxo de criação de conteúdo
 - [**Gerência de projetos**](./01-procedimentos/) — ADRs, decisions, status
 - [**Deploy**](./01-procedimentos/deploy/) — padrões de deploy
-- [**Ritmo operativo**](./01-procedimentos/ritmo-operativo/) — briefing matinal, fechamento viernes, recap lunes, retrospectiva
+- [**Way of working**](./01-procedimentos/way-of-working/) — **★ modo de trabalhar** (estrutura, convenções, ritmo, regras)
+- [**Comercial**](./01-procedimentos/comercial/) — funil + [plano-comercial](./01-procedimentos/comercial/plano-comercial.md) (mensal)
+- [**Marketing**](./01-procedimentos/marketing/) — produção de conteúdo
+- [**Ritmo operativo**](./01-procedimentos/ritmo-operativo/) — briefing, fechamento, recap, retrospectiva
 - *(em construção — cada área ganha seu procedimento)*
 
 ## 📋 Proyectos vixentes
