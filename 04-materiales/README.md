@@ -1,6 +1,6 @@
 # 05-materiales
 
-Lo que se ve: marketing, presentaciones, demos, textos de producto.
+Lo que se ve: marketing, presentaciones, demos, textos de producto. (Los clientes viven dentro de cada proyecto, no acá.)
 
 ## Contenido
 - `presentaciones/` — decks/demos (de `02-projetos/apresentacoes`)

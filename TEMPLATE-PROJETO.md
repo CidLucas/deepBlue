@@ -19,6 +19,22 @@
 - [docs/02-arquitetura.md](./docs/02-arquitetura.md) — stack, componentes, fluxos
 - [docs/03-roadmap.md](./docs/03-roadmap.md) — fases, milestones, tarefas
 - [docs/04-reunioes.md](./docs/04-reunioes.md) — log cronológico de decisões
+- [cliente/README.md](./cliente/README.md) — contexto do cliente (se projeto de cliente)
+- [cliente/propuesta.md](./cliente/propuesta.md) — proposta comercial (escopo, valores)
+- [cliente/contrato.md](./cliente/contrato.md) — termos / contrato (se aplica)
+- [cliente/reuniones/](./cliente/reuniones/) — `YYYY-MM-DD_tema.md` por reunião 
+
+## 🤝 Cliente
+
+> Aplicável apenas a projetos de cliente. Produtos próprios omitem esta seção.
+> O cliente é **atributo do projeto** — não existe pasta separada de clientes.
+
+| Documento | Conteúdo |
+|-----------|----------|
+| `cliente/README.md` | o que faz o cliente, contato, tipo de relação |
+| `cliente/propuesta.md` | escopo comercial, valores, status da negociação |
+| `cliente/contrato.md` | termos contratuais (se aplica) |
+| `cliente/reuniones/` | uma nota `YYYY-MM-DD_tema.md` por reunião com o cliente |
 
 ## 🔑 Decisões-chave
 

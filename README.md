@@ -16,11 +16,10 @@ automações e produtos de IA para PMEs e clientes corporativos.
 |---|---|
 | [00-empresa/](./00-empresa/) | Contexto da empresa: visão, stack, clientes, posicionamento |
 | [01-procedimentos/](./01-procedimentos/) | **★ Padrões operacionais por área** + [ritmo-operativo/](./01-procedimentos/ritmo-operativo/) (briefing, fechamento, recap, retro) |
-| [02-projetos/](./02-projetos/) | Um diretorio por **projeto vigente** (visão, arquitetura, roadmap, decisions) |
+| [02-projetos/](./02-projetos/) | Um diretorio por **projeto vigente** (inclui contexto do cliente, propuesta, reuniones dentro do projeto) |
 | [03-negocio/](./03-negocio/) | **Cuestiones de negocio**: marketing, producto, herramientas, pipeline |
-| [04-clientes/](./04-clientes/) | Relação com cada cliente (contexto, propuesta, reuniones) |
-| [05-materiales/](./05-materiales/) | Material visible: presentações, textos, marketing web/LinkedIn |
-| [06-referencias/](./06-referencias/) | Referências: design systems, marcas, pesquisa, catálogo IA |
+| [04-materiales/](./04-materiales/) | Material visible: presentações, textos, marketing web/LinkedIn |
+| [05-referencias/](./05-referencias/) | Referências: design systems, marcas, pesquisa, catálogo IA |
 | [90-archivo/](./90-archivo/) | Proyectos/material no vigentes (se archiva, não se borra) |
 | `__profiles__/` | Entregáveis por profile/agente (pm, writer, ...) |
 | `TEMPLATE-PROJETO.md` | Template base para novos projetos |
@@ -28,8 +27,9 @@ automações e produtos de IA para PMEs e clientes corporativos.
 
 ## 🤝 Clientes
 
-Resumo comercial de cada cliente (propostas, apresentações, docs, reuniones):
-[04-clientes/](./04-clientes/) — SENAC, Cladtek, Formly, MCP Brain, …
+O **cliente vive dentro do projeto** (não tem pasta própria): contexto, proposta,
+contrato e reuniões ficam em `02-projetos/<projeto>/cliente/`. Cliente sem projeto
+não é relevante — a negociação gera um projeto na hora.
 
 ## 🧭 Procedimentos (como fazemos)
 
