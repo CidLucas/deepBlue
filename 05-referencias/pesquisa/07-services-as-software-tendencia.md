@@ -3,7 +3,7 @@
 **Origem:** HFS Horizons: Agentic Services, 2026 (KPMG/HFS) + página conceptual HFS "Services-as-Software™"
 **Tipo:** referencia de mercado (tendência) → tradução à voz deepBlue → insumo de conteúdo
 **Filtrado por:** skill `deep-blue-voice` (anti-hype, cliente como herói, IA como ferramenta)
-**Dores que ataca:** todas (ver §5) · **Alinha com:** `textos/servicos/README.md`, `textos/capabilities/README.md`, `03-referencias/pesquisa/06-mapa-dores-pme.md`
+**Dores que ataca:** todas (ver §5) · **Alinha com:** `04-materiales/textos/servicos/README.md`, `04-materiales/textos/capabilities/README.md`, `05-referencias/pesquisa/06-mapa-dores-pme.md`
 **Uso:** insumo para artículos LinkedIn, copy de Consulting, propuestas e posts. **NÃO é copy final** — é material de consulta para enriquecer o que já canônico.
 
 ---

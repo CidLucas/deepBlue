@@ -1,4 +1,4 @@
-# 06-referencias
+# 05-referencias
 
 Material de consulta. (Antes `03-referencias` + absorbe design y catálogo IA.)
 
