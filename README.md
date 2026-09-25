@@ -14,39 +14,45 @@ automações e produtos de IA para PMEs e clientes corporativos.
 
 | Pasta | Conteúdo |
 |---|---|
-| [00-empresa/](./00-empresa/) | Contexto da empresa: visão, stack, **clientes**, posicionamento |
-| [01-procedimentos/](./01-procedimentos/) | **★ Padrões operacionais por área** — como fazemos as coisas (consultáveis e editáveis) |
-| [02-projetos/](./02-projetos/) | Um diretório por projeto ativo (visão, arquitetura, roadmap, decisions) |
-| [03-referencias/](./03-referencias/) | Referências: design systems, marcas, pesquisa |
+| [00-empresa/](./00-empresa/) | Contexto da empresa: visão, stack, clientes, posicionamento |
+| [01-procedimentos/](./01-procedimentos/) | **★ Padrões operacionais por área** + [ritmo-operativo/](./01-procedimentos/ritmo-operativo/) (briefing, fechamento, recap, retro) |
+| [02-projetos/](./02-projetos/) | Um diretorio por **projeto vigente** (visão, arquitetura, roadmap, decisions) |
+| [03-negocio/](./03-negocio/) | **Cuestiones de negocio**: marketing, producto, herramientas, pipeline |
+| [04-clientes/](./04-clientes/) | Relação com cada cliente (contexto, propuesta, reuniones) |
+| [05-materiales/](./05-materiales/) | Material visible: presentações, textos, marketing web/LinkedIn |
+| [06-referencias/](./06-referencias/) | Referências: design systems, marcas, pesquisa, catálogo IA |
+| [90-archivo/](./90-archivo/) | Proyectos/material no vigentes (se archiva, não se borra) |
 | `__profiles__/` | Entregáveis por profile/agente (pm, writer, ...) |
 | `TEMPLATE-PROJETO.md` | Template base para novos projetos |
 | `TEMPLATE-DELIVERABLE.md` | Padrão de entrega para todos os profiles |
 
 ## 🤝 Clientes
 
-Resumo comercial de cada cliente (propostas, apresentações, docs):
-[00-empresa/clientes/](./00-empresa/clientes/) — SENAC, Cladtek, Rastro, Guanabara, Formly, MCP Brain.
+Resumo comercial de cada cliente (propostas, apresentações, docs, reuniones):
+[04-clientes/](./04-clientes/) — SENAC, Cladtek, Formly, MCP Brain, …
 
 ## 🧭 Procedimentos (como fazemos)
 
-- [**Produção de código**](./01-procedimentos/producao-de-codigo/) — pipeline de issues → specs → agentes → verificação → PR (o que estamos usando hoje)
+- [**Produção de código**](./01-procedimentos/producao-de-codigo/) — pipeline de issues → specs → agentes → verificação → PR
 - [**Conteúdo LinkedIn**](./01-procedimentos/conteudo-linkedin/) — fluxo de criação de conteúdo
-- [**Gerência de projetos**](./01-procedimentos/gerencia-de-projetos/) — ADRs, decisions, status
-- [**Deploy**](./01-procedimentos/deploy/) — padrões de deploy (GCP, Neon, Cloud Run)
+- [**Gerência de projetos**](./01-procedimentos/) — ADRs, decisions, status
+- [**Deploy**](./01-procedimentos/deploy/) — padrões de deploy
+- [**Ritmo operativo**](./01-procedimentos/ritmo-operativo/) — briefing matinal, fechamento viernes, recap lunes, retrospectiva
 - *(em construção — cada área ganha seu procedimento)*
 
-## 📋 Projetos ativos
+## 📋 Proyectos vixentes
 
 | Projeto | Tipo | Fase |
 |---|---|---|
-| [assistente-pessoal](./02-projetos/assistente-pessoal/) | Produto próprio | Build (F0 entregue) |
+| [assistente-pessoal](./02-projetos/assistente-pessoal/) | Produto próprio | Build |
 | [plataforma-blu](./02-projetos/plataforma-blu/) | Produto próprio | Build |
-| [agente-bloquo](./02-projetos/agente-bloquo/) | Produto próprio | Build |
 | [mcp-brain](./02-projetos/mcp-brain/) | Produto B2B próprio | Descoberta |
-| [senac](./02-projetos/senac/) | SENAC | Pré-kickoff |
+| [cruzeiro-do-sul](./02-projetos/cruzeiro-do-sul/) | Sales Coach AI — Cruzeiro do Sul | Pré-contrato (setup) |
 | [cladtek](./02-projetos/cladtek/) | Cladtek | Pré-contrato |
-| [sales-coach-ai](./02-projetos/sales-coach-ai/) | Sales Coach AI — Cruzeiro do Sul | Pré-contrato (setup) |
-| [rastro](./02-projetos/rastro/) | Rastro | Pré-proposta |
+| [senac](./02-projetos/senac/) | SENAC | Pré-kickoff |
+| [formly](./02-projetos/formly/) | Formly | Build |
+
+_Archivados (24/09): agente-bloquo, guanabara, rastro, sales-coach-ai → [90-archivo/proyectos/](./90-archivo/proyectos/)._
 
 ## ⚙️ Stack da empresa
 
